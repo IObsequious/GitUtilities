@@ -21,6 +21,7 @@ namespace RepoGen
             MainWindow = new MainWindow(manager);
             if (MainWindow.ShowDialog() == true)
             {
+                RepositoryGenerator.Generate(manager.Model);
 
             }
         }
