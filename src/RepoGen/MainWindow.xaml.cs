@@ -54,8 +54,6 @@ namespace RepoGen
 
         private void OnOKButtonClick(object sender, RoutedEventArgs e)
         {
-            RepositoryGenerator.Generate(Model);
-
             DialogResult = true;
             Close();
         }
