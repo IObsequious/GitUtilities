@@ -14,17 +14,26 @@ namespace RepoGen
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly RepositoryInfoViewModel _viewModel;
+        private readonly RepositoryInfoManager _manager;
 
-        public MainWindow() : this(new RepositoryInfoViewModel(new RepositoryInfo()))
+
+        public RepositoryInfo Model
+        {
+            get
+            {
+                return _manager.Model;
+            }
+        }
+
+        public MainWindow() : this(new RepositoryInfoManager())
         {
         }
 
-        public MainWindow(RepositoryInfoViewModel viewModel)
+        public MainWindow(RepositoryInfoManager manager)
         {
-            _viewModel = viewModel;
+            _manager = manager;
             InitializeComponent();
-            DataContext = _viewModel;
+            DataContext = _manager.ViewModel;
             RepositoryNameTextBox.Focus();
         }
 
@@ -45,36 +54,18 @@ namespace RepoGen
 
         private void OnOKButtonClick(object sender, RoutedEventArgs e)
         {
+            RepositoryGenerator.Generate(Model);
+
             DialogResult = true;
             Close();
         }
 
-        private void OnExecuteCommandOpen(object sender, ExecutedRoutedEventArgs e)
-        {
-        }
-
-        private void OnExecutedCommandClose(object sender, ExecutedRoutedEventArgs e)
-        {
-            Close();
-        }
-
-        private void OnExecutedCommandNew(object sender, ExecutedRoutedEventArgs e)
-        {
-        }
-
-        private void OnExecutedCommandSaveAs(object sender, ExecutedRoutedEventArgs e)
-        {
-        }
-
-        private void OnExecutedCommandCopy(object sender, ExecutedRoutedEventArgs e)
-        {
-        }
 
         private void OnSearchButtonClick(object sender, RoutedEventArgs e)
         {
             using (FolderBrowserDialog dialog = new FolderBrowserDialog())
             {
-                dialog.RootFolder = Environment.SpecialFolder.Personal;
+                
                 dialog.ShowNewFolderButton = true;
                 dialog.Description = "Choose a working directory for the new repository.";
                 if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
