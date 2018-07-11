@@ -12,16 +12,19 @@ namespace RepoGen
     {
         public RepositoryInfo()
         {
+            RepositoryName = Settings.Default.RepositoryName;
             WorkingDirectory = Settings.Default.WorkingDirectory;
             Force = Settings.Default.Force;
+            StartProgram = (StartProgram) Settings.Default.StartProgram;
         }
 
         ~RepositoryInfo()
         {
+            
             Settings.Default.WorkingDirectory = WorkingDirectory;
             Settings.Default.Force = Force;
             Settings.Default.RepositoryName = RepositoryName;
-            Settings.Default.OpenInVisualStudio = OpenInVisualStudio;
+            Settings.Default.StartProgram = (int) StartProgram;
         }
 
         public string RepositoryName { get; set; }
@@ -30,6 +33,6 @@ namespace RepoGen
 
         public bool Force { get; set; }
 
-        public bool OpenInVisualStudio { get; set; }
+        public StartProgram StartProgram { get; set; }
     }
 }

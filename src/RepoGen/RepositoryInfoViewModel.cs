@@ -16,7 +16,10 @@ namespace RepoGen
 
         public string WorkingDirectory
         {
-            get => _model.WorkingDirectory;
+            get
+            {
+                return _model.WorkingDirectory;
+            }
             set
             {
                 if (value == _model.WorkingDirectory) return;
@@ -27,7 +30,10 @@ namespace RepoGen
 
         public string RepositoryName
         {
-            get => _model.RepositoryName;
+            get
+            {
+                return _model.RepositoryName;
+            }
             set
             {
                 if (value == _model.RepositoryName) return;
@@ -38,7 +44,10 @@ namespace RepoGen
 
         public bool Force
         {
-            get => _model.Force;
+            get
+            {
+                return _model.Force;
+            }
             set
             {
                 if (value == _model.Force) return;
@@ -47,16 +56,20 @@ namespace RepoGen
             }
         }
 
-        public bool OpenInVisualStudio
+        public StartProgram StartProgram
         {
-            get => _model.OpenInVisualStudio;
+            get
+            {
+                return _model.StartProgram;
+            }
             set
             {
-                if (value == _model.OpenInVisualStudio) return;
-                _model.OpenInVisualStudio = value;
+                if (value == _model.StartProgram) return;
+                _model.StartProgram = value;
                 OnPropertyChanged();
             }
         }
+
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

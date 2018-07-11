@@ -45,6 +45,8 @@
     <Compile Include="RepositoryInfo.cs" />
     <Compile Include="RepositoryInfoManager.cs" />
     <Compile Include="RepositoryInfoViewModel.cs" />
+    <Compile Include="StartProgram.cs" />
+    <Compile Include="Utilities.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

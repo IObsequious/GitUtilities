@@ -1,8 +1,15 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace RepoGen
 {
@@ -10,16 +17,18 @@ namespace RepoGen
     {
         public const string RootUrl = "https://raw.githubusercontent.com/IObsequious/dotnet-templates/master/templates/RepositorySolution";
         private static string RootDirectory;
-
+        private static int _total;
+        private static int _current;
         public static void Generate(RepositoryInfo info)
         {
+            _total = 27;
+            _current = 0;
+
             RootDirectory = Path.Combine(info.WorkingDirectory, info.RepositoryName);
+
             if (Directory.Exists(RootDirectory))
             {
-                if (info.Force)
-                {
-                    Directory.Delete(RootDirectory, true);
-                }
+                Directory.Delete(RootDirectory, true);
             }
 
             Thread.Sleep(1000);
@@ -58,11 +67,11 @@ namespace RepoGen
             DownloadFile(@"tools\Newtonsoft.Json.dll");
             DownloadFile(@"tools\Packages.props");
             DownloadFile(@"tools\RepositoryUtility.exe");
-            if (info.OpenInVisualStudio)
+            if (info.StartProgram == StartProgram.VisualStudio)
             {
                 Process.Start(Path.Combine(RootDirectory, $"src\\{info.RepositoryName}.sln"));
             }
-            else
+            else if (info.StartProgram == StartProgram.Explorer)
             {
                 ProcessStartInfo startInfo =
                     new ProcessStartInfo
@@ -78,16 +87,18 @@ namespace RepoGen
                 };
                 p.Start();
             }
+
+        }
+
+        private static async Task DoWorkAsync(RepositoryInfo info)
+        {
+ 
         }
 
         private static void DownloadFile(string relativePath)
         {
-            string downloadFileUrl = string.Format("{0}/{1}", RootUrl, relativePath);
-            string downloadFilePath = Path.Combine(RootDirectory, relativePath);
-            using (WebClient client = new WebClient())
-            {
-                client.DownloadFile(downloadFileUrl, downloadFilePath);
-            }
+            DownloadFile(relativePath, relativePath);
+
         }
 
         private static void DownloadFile(string relativePath, string relativeDestination)
@@ -96,7 +107,10 @@ namespace RepoGen
             string downloadFilePath = Path.Combine(RootDirectory, relativeDestination);
             using (WebClient client = new WebClient())
             {
+                
+                _current++;
                 client.DownloadFile(downloadFileUrl, downloadFilePath);
+                
             }
         }
 
@@ -109,4 +123,5 @@ namespace RepoGen
             }
         }
     }
+
 }

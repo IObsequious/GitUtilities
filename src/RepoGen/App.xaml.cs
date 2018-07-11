@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace RepoGen
 {
@@ -17,11 +18,26 @@ namespace RepoGen
         private void OnApplicationStartup(object sender, StartupEventArgs e)
         {
             RepositoryInfoManager manager = new RepositoryInfoManager();
-            MainWindow = new MainWindow(manager.ViewModel);
+            MainWindow = new MainWindow(manager);
             if (MainWindow.ShowDialog() == true)
             {
-                RepositoryInfo info = manager.Model;
-                RepositoryGenerator.Generate(info);
+
+            }
+        }
+
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                textBox.SelectAll();
+            }
+        }
+
+        private void TextBox_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                textBox.SelectAll();
             }
         }
     }

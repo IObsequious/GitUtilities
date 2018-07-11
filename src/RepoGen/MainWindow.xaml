@@ -5,92 +5,92 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:RepoGen"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Width="700"
-    Height="350"
+    Width="567.232"
+    Height="322.316"
     Background="{DynamicResource Application.BackgroundBrushKey}"
     BorderBrush="{DynamicResource Application.BorderBrushKey}"
     Foreground="{DynamicResource Application.ForegroundBrushKey}"
     mc:Ignorable="d">
     <Window.Resources>
-        <ResourceDictionary />
+        <ResourceDictionary>
+            <Style TargetType="{x:Type CheckBox}">
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+            </Style>
+            <!--<local:RepositoryInfo
+                x:Key="DesignData"
+                RepositoryName="Example"
+                StartProgram="VisualStudio"
+                WorkingDirectory="C:\stage\workspaces\sandbox" />-->
+        </ResourceDictionary>
     </Window.Resources>
-    <Window.CommandBindings>
-        <CommandBinding Command="Open" Executed="OnExecuteCommandOpen" />
-        <CommandBinding Command="Close" Executed="OnExecutedCommandClose" />
-        <CommandBinding Command="New" Executed="OnExecutedCommandNew" />
-        <CommandBinding Command="SaveAs" Executed="OnExecutedCommandSaveAs" />
-        <CommandBinding Command="Copy" Executed="OnExecutedCommandCopy" />
-    </Window.CommandBindings>
     <Grid Background="Transparent">
         <Grid.RowDefinitions>
-            <RowDefinition Height="35" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="70" />
+            <RowDefinition Height="60" />
         </Grid.RowDefinitions>
-        <Menu
-            x:Name="MainMenu"
-            Grid.Row="0"
-            Background="{DynamicResource Application.BackgroundBrushKey}"
-            Foreground="Black">
-            <MenuItem Header="File">
-                <MenuItem Header="New">
-                    <MenuItem Command="New" Header="File" />
-                </MenuItem>
-                <MenuItem Command="Open" Header="Open" />
-                <Separator />
-                <MenuItem Command="SaveAs" Header="Save As..." />
-                <Separator />
-                <MenuItem Command="Close" Header="Exit" />
-            </MenuItem>
-        </Menu>
-        <TextBlock Grid.Row="1" Style="{DynamicResource TitleTextStyle}">Repository Generator</TextBlock>
-        <Grid Grid.Row="2">
+        <TextBlock Style="{DynamicResource TitleTextStyle}">Repository Generator</TextBlock>
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition />
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition />
+                <ColumnDefinition Width="110" />
+                <ColumnDefinition Width="245*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="32" />
-                <RowDefinition Height="32" />
-                <RowDefinition Height="32" />
-                <RowDefinition Height="32" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
             </Grid.RowDefinitions>
-            <CheckBox
-                Grid.Row="1"
-                Grid.Column="3"
-                Foreground="{DynamicResource Application.ForegroundBrushKey}"
-                IsChecked="{Binding Force}">
-                Create even if repository exists
-            </CheckBox>
-            <CheckBox
-                Grid.Row="2"
-                Grid.Column="3"
-                Foreground="{DynamicResource Application.ForegroundBrushKey}"
-                IsChecked="{Binding OpenInVisualStudio}">
-                Open in Visual Studio on exit
-            </CheckBox>
             <Label
                 Grid.Row="1"
                 Grid.Column="0"
                 Style="{DynamicResource LabelStyle}">
                 Repository Name:
             </Label>
-            <TextBox
-                x:Name="RepositoryNameTextBox"
+            <StackPanel
                 Grid.Row="1"
                 Grid.Column="1"
-                TabIndex="0"
-                Text="{Binding RepositoryName}" />
+                Orientation="Horizontal">
+                <TextBox
+                    x:Name="RepositoryNameTextBox"
+                    Width="150"
+                    Margin="7"
+                    TabIndex="0"
+                    Text="{Binding RepositoryName, Mode=TwoWay}" />
+
+            </StackPanel>
+
+            <Label
+                Grid.Row="2"
+                Grid.Column="0"
+                Style="{DynamicResource LabelStyle}">
+                Start Program:
+            </Label>
+            <StackPanel
+                Grid.Row="2"
+                Grid.Column="1"
+                Orientation="Horizontal">
+
+                <ComboBox
+                    Width="150"
+                    Margin="7"
+                    HorizontalAlignment="Left"
+                    FontSize="{x:Static SystemFonts.IconFontSize}"
+                    ItemsSource="{x:Static local:Utilities.GetStartPrograms}"
+                    SelectedValue="{Binding StartProgram, Mode=TwoWay}"
+                    TabIndex="1" />
+
+            </StackPanel>
 
             <Grid
-                Grid.Row="2"
+                Grid.Row="3"
                 Grid.Column="0"
                 Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="110" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="50" />
                 </Grid.ColumnDefinitions>
@@ -100,29 +100,41 @@
                 <TextBox
                     x:Name="WorkingDirectoryTextBox"
                     Grid.Column="1"
-                    TabIndex="1"
-                    Text="{Binding WorkingDirectory}" />
+                    TabIndex="3"
+                    Text="{Binding WorkingDirectory, Mode=TwoWay}" />
                 <Button
                     Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
                     Click="OnSearchButtonClick"
-                    Style="{DynamicResource SearchButtonStyle}" />
+                    Style="{DynamicResource SearchButtonStyle}"
+                    TabIndex="4"
+                    ToolTip="Browse for folder." />
             </Grid>
 
         </Grid>
         <Grid
-            Grid.Row="3"
+            Grid.Row="2"
+            Grid.ColumnSpan="1"
             Opacity="1"
             Style="{DynamicResource FooterGrid}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button
+                    VerticalAlignment="Bottom"
+                    Content="Cancel"
+                    IsCancel="True"
+                    Style="{DynamicResource ButtonBaseStyle}"
+                    TabIndex="5" />
+                <Button
+                    VerticalAlignment="Bottom"
                     Click="OnOKButtonClick"
                     Content="OK"
                     IsDefault="True"
-                    Style="{DynamicResource ButtonBaseStyle}" />
-                <Button
-                    Content="Cancel"
-                    IsCancel="True"
-                    Style="{DynamicResource ButtonBaseStyle}" />
+                    Style="{DynamicResource ButtonBaseStyle}"
+                    TabIndex="6" />
             </StackPanel>
         </Grid>
     </Grid>
